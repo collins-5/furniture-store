@@ -1,0 +1,54 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<div class="container text-gray-600 mx-auto mt-10">
+    <div class="flex shadow-md my-10">
+        <div class="w-3/4 bg-blue-100 px-10 py-10">
+            <div class="flex justify-between border-b pb-8">
+                <h1 class="font-semibold text-2xl">Shopping Cart</h1>
+                <h2 class="font-semibold text-2xl">@ {{ cart_items|length }} Items</h2>
+            </div>
+            <div class="flex mt-10 mb-5">
+                <h3 class="font-semibold text-gray-600 text-xs uppercase w-2/5">Product Details</h3>
+                <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Quantity</h3>
+                <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Price</h3>
+                <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Total</h3>
+
+            </div>
+
+            {% for cart_item in cart_items %}
+        <a href="{% url "item:detail" cart_item.item.id %}">
+            <div class="flex items-center  hover:bg-gray-100 -mx-8 px-6 py-5">
+                <div class="flex w-2/5">
+                    <div class="w-20">
+                        <img class="h-24" src="{{ cart_item.item.image.url }}" alt="{{ cart_item.item.name }}">
+                    </div>
+                    <div class="flex flex-col justify-between ml-4 flex-grow">
+                        <span class="font-bold text-sm">{{ cart_item.item.name }}</span>
+                        <a href="{% url 'dashboard:remove_from_cart' cart_item.item.id %}" class="font-semibold hover:text-red-500 text-gray-500 text-xs">Remove</a>
+                    </div>
+                </div>
+                <div class="flex justify-center w-1/5">
+                    <span class="text-center w-1/5 font-semibold text-sm">{{ cart_item.quantity }}</span>
+                </div>
+                <span class="text-center w-1/5 font-semibold text-sm">{{ cart_item.item.price }}</span>
+                <span class="text-center w-1/5 font-semibold text-sm">{{ cart_item.get_total_item_price }}</span>
+                
+            </div>
+        </a>
+            {% endfor %}
+        </div>
+
+        <div class="w-1/4 bg-gray-100 px-8 py-10">
+            <h1 class="font-semibold text-2xl border-b pb-8">Order Summary</h1>
+            <div class="flex justify-between mt-10 mb-5">
+                <span class="font-semibold text-sm uppercase">Total</span>
+                <span class="font-semibold text-sm">{{ total }}</span>
+            </div>
+            <a href="{% url 'dashboard:lipa_na_mpesa' %}"> <button class="bg-blue-500 font-semibold hover:bg-blue-700 py-3 text-sm text-white uppercase w-full">Checkout</button></a>
+            <a href="{% url "item:items" %}" class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700">Check more furnitures</a>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

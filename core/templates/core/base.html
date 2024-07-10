@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Furniture | {% block title %} {% endblock %}</title>
+    <style>
+        /* Light mode */
+        .light {
+            /* --bg-color:  rgb(81, 226, 226); */
+            /* --bg-color: rgb(231, 251, 252); */
+            /* --bg-color: rgb(54, 241, 226); */
+            --bg-color:rgb(181, 225, 226);
+            --text-color: #333333;
+            --nav-bg-color: #c0dbf5;
+            --footer-bg-color: #293744;
+            --index-bg-color: #1a7cdf;
+            --index-text-color: #da4040;
+            --a-text-color:  #1a7cdf;
+            --blue-color: rgb(65, 34, 136);
+            --cart-color: rgb(235, 84, 79);
+            --productbg-color: rgb(181, 225, 226);
+            --searchb-color: rgb(218, 178, 241);
+            --blued-color: #f78c12;
+            --green-color:rgb(178, 243, 178);
+
+        }
+
+        /* Dark mode */
+        .dark {
+            --bg-color: rgb(84, 92, 92);
+            --text-color: #ffffff;
+            --nav-bg-color: #444444;
+            --footer-bg-color: #444444;
+            --blue-color: rgb(108, 193, 243);
+            --cart-color: rgb(250, 13, 5);
+            --productbg-color: rgb(84, 92, 92);
+            --searchb-color: rgb(159, 112, 187);
+            --search-color: rgb(238, 224, 224);
+            --blued-color: rgb(18, 215, 250);
+            --green-color:green;
+
+
+            /* --a-color:  #c81adf; */
+        }
+        .search{
+           background-color: var(--nav-bg-color);
+           width: 100%;
+        }
+        /* .searchs{
+           background-color: var(--nav-bg-color);
+           position: absolute;
+           width: 900px;
+           height: 310px;
+           right: 0;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           flex-direction: column;
+           cursor: none;
+           animation: searc .1s ease-in infinite ;
+           opacity: 1;
+           
+        } */
+        @keyframes searc {
+            0%{
+                background: linear-gradient(45deg, lavender, var(--bg-color), var(--blue-color));
+            }
+            25%{
+                background: linear-gradient(90deg, lavender, var(--bg-color), var(--blue-color));
+            }
+
+            50%{
+                background: linear-gradient(135deg, lavender, var(--bg-color), var(--blue-color));
+            }
+            75%{
+                background: linear-gradient(180deg, lavender, var(--bg-color), var(--blue-color));
+            }
+            100%{
+                background: linear-gradient(225deg, lavender, var(--bg-color), var(--blue-color));
+            }
+        }
+
+        .blue{
+        color: var(--blue-color);
+        }
+        .blued{
+        color: var(--blued-color);
+        }
+        .cart{
+         background-color: var(--cart-color);
+        }
+        .productbg{
+           background-color: var(--productbg-color);
+        }
+        .green{
+            background-color: var(--green-color);
+
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        a {
+           color:var(--a-text-color) ;
+        }
+
+        nav, footer {
+            background-color: var(--nav-bg-color);
+            color: var(--text-color);
+        }
+
+        footer {
+            background-color: var(--footer-bg-color);
+            color: wheat;
+            height: 600px;
+
+        }
+        .convas{
+            padding: 10px;
+        }
+        .roundedb{
+            border-top: 10px solid var(--blued-color);
+            border-bottom: 10px solid var(--blued-color); 
+            border-radius: 10px;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            60% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+            80% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .bounce-in {
+            animation: bounceIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            0% { transform: translateY(-20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .slide-in {
+            animation: slideIn 1s ease-in-out;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg);
+                 }
+            
+            100% { transform: rotate(360deg);
+            }
+        }
+
+        .rotate {
+            animation: rotate 1s linear;
+        }
+        .tog:active{
+            color: blue;
+        }
+   
+        .italy{
+            font-style: italic;
+        }
+        .newest{
+        border: 2px var(--footer-bg-color) solid;
+         display: flex; 
+         justify-content: center;
+          align-items: center;
+            padding: 0px; 
+            margin-bottom: 9px;
+            cursor: none;
+            color: var(--search-color);
+            background-color: var(--productbg-color);
+    }
+    .new{
+        margin-top: 30px;
+
+    }
+    </style>
+</head>
+<body class="">
+
+
+    <nav class="py-2 px-1 flex justify-between items-center border-b border-gray-200 shadow-md">
+        <a style="cursor: help;" href="{% url 'core:index1' %}" class="flex items-center blue index space-x-2 fade-in">
+            <i class="fas fa-couch text-3xl"></i>
+            <span class="text-2xl italy  ">SFH <i  class="fas fa-star tog text-xl"></i></span>
+        </a>
+        <button id="nav-toggle" class="text-gray-800 md:hidden focus:outline-none">
+            <i class="fas fa-bars fa-2x"></i>
+        </button>
+        <div id="nav-menu" class="hidden md:flex space-x-6 items-center">
+            <a href="{% url 'item:items' %}" class=" font-semibold italy hover:text-teal-500 transition duration-300">
+                <i class="fas fa-search"></i> Browse
+            </a>
+            {% if request.user.is_staff %}
+            <a href="{% url 'item:new' %}" class="italy font-semibold hover:text-teal-500 transition duration-300">
+                <i class="fas fa-plus-circle"></i> New
+            </a>
+            <a href="{% url 'core:sold' %}" class="italy font-semibold hover:text-teal-500 transition duration-300">
+                <i class="fas fa-check-circle"></i> Sold
+            </a>
+            <a href="{% url 'dashboard:index' %}" class="px-6 py-3 italy font-semibold hover:text-teal-700 transition duration-300">
+                <i class="fas fa-tachometer-alt"></i> My Items
+            </a>
+            {% endif %}
+            {% if request.user.is_authenticated %}
+            <a href="{% url 'conversation:inbox' %}" class="italy  hover:text-teal-500 transition duration-300">
+                <i class="fas fa-inbox"></i> Inbox
+            </a>
+            {% if not request.user.is_staff %}
+            <a href="{% url 'dashboard:cart' %}" class="italy  hover:text-teal-500 transition duration-300">
+                <i class="fas fa-shopping-cart"></i> Cart
+            </a>
+            {% endif %}
+            <a href="{% url 'dashboard:profile' %}" class="italy font-semibold hover:text-teal-500 transition duration-300">
+                <i class="fas fa-user"></i> Profile
+            </a>
+            <a href="{% url 'core:logout' %}" class="italy font-semibold hover:text-teal-500 transition duration-300">
+                <i class="fas fa-sign-out-alt"></i> Sign Out
+            </a>
+            {% else %}
+            <a href="{% url 'core:login' %}" class="italy font-semibold hover:text-teal-500 transition duration-300">
+                <i class="fas fa-user-plus"></i> Sign Up
+            </a>
+            <a href="{% url 'core:login' %}" class="italy font-semibold hover:text-teal-500 transition duration-300">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </a>
+            {% endif %}
+         
+            <button id="theme-toggle" class=" bg-lavender  px-4 py-2 rounded-md shadow-md flex items-center justify-center">
+                <i id="theme-icon" class="fas fa-sun blued text-1xl"></i>THEME
+            </button>
+          
+        </div>
+    </nav>
+
+    <div id="nav-mobile-menu" class="md:hidden index hidden  shadow-md mt-2 space-y-2">
+        <a href="{% url 'item:items' %}" class="block px-4 py-2 text-lg font-semibold text-gray-800 hover:bg-gray-100">
+            <i class="fas fa-search"></i> Browse
+        </a>
+        {% if request.user.is_staff %}
+        <a href="{% url 'item:new' %}" class="block px-4 py-2 text-lg font-semibold text-gray-800 hover:bg-gray-100">
+            <i class="fas fa-plus-circle"></i> New Item
+        </a>
+        <a href="{% url 'dashboard:index' %}" class="block px-4 py-2 text-lg font-semibold bg-gray-500 text-white hover:bg-gray-700">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+        </a>
+        {% endif %}
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'conversation:inbox' %}" class="block px-4 py-2 text-lg font-semibold bg-teal-500 text-white hover:bg-teal-700">
+            <i class="fas fa-inbox"></i> Inbox
+        </a>
+        {% if not request.user.is_staff %}
+        <a href="{% url 'dashboard:cart' %}" class="block px-4 py-2 text-lg font-semibold hover:bg-gray-100">
+            <i class="fas fa-shopping-cart"></i> Cart
+        </a>
+        {% endif %}
+        <a href="{% url 'core:logout' %}" class="block px-4 py-2 text-lg font-semibold hover:bg-gray-100">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+        <a href="{% url 'dashboard:profile' %}" class="block px-4 py-2 text-lg font-semibold hover:bg-gray-100">
+            <i class="fas fa-user"></i> Profile
+        </a>
+        {% else %}
+        <a href="{% url 'core:login' %}" class="block px-4 py-2 text-lg font-semibold hover:bg-gray-100">
+            <i class="fas fa-user-plus"></i> Sign Up
+        </a>
+        <a href="{% url 'core:login' %}" class="block px-4 py-2 text-lg font-semibold hover:bg-gray-100">
+            <i class="fas fa-sign-in-alt"></i> Login
+        </a>
+        {% endif %}
+    </div>
+
+    <div class="px-2 py-2 fade-in rounded-xl">
+        {% if request.user.is_staff %}
+        <h1 class="text-3xl font-bold">
+            Admin
+            <a href="{% url 'dashboard:post_list' %}" class="text-lg text-teal-500 hover:text-teal-700">BLOGS</a>
+        </h1>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer style=" margin-top: auto;" class="shadow-md mt-8 py-6 fade-in">
+        <div class="container mx-auto flex flex-wrap justify-between ">
+            <div class="w-full md:w-1/5 mb-6 md:mb-0">
+                <h3 class="text-2xl font-semibold mb-5">
+                    <i class="fas fa-couch blued"></i> Strong Furniture Holdings
+                </h3>
+                <p class="text-lg">Welcome to your one-stop destination for all your furniture needs!</p>
+                <p class="text-lg mt-3">At <strong>Strong Furniture Holdings</strong>, we believe that furniture is more than just a necessity – it's an expression of your style and a reflection of your personality. Our mission is to provide you with high-quality, stylish, and affordable furniture that transforms your house into a home.</p>
+            </div>
+            <div style="margin-top: 0px;" class="w-full md:w-1/5 mb-6 md:mb-0">
+                <h3 class="text-2xl font-semibold mb-5">Our Story</h3>
+                <p class="text-lg">Founded with a passion for design and a commitment to quality, Strong Furniture Holdings has grown from a small startup into a trusted name in the furniture industry. Our journey began with a simple idea: to make beautiful furniture accessible to everyone. Today, we are proud to offer a wide range of furniture categories, catering to diverse tastes and preferences.</p>
+                <a href="{% url 'core:about' %}" class="text-lg blued hover:text-teal-700 mt-3 inline-block">More about us...</a>
+                {% if not request.user.is_staff %}
+                <div class="flex a space-x-4 mt-6 ">
+                    <a href="mailto:otiecollins131@gmail.com" class=" text-yellow-500 hover:text-teal-700">
+                        <i class="fas fa-envelope text-2xl"></i>
+                    </a>
+                    <a href="https://twitter.com/yourcompany" target="_blank" class=" blue hover:text-teal-700">
+                        <i class="fab fa-twitter text-2xl"></i>
+                    </a>
+                    <a href="https://instagram.com/yourcompany" target="_blank" class=" text-pink-500 hover:text-teal-700">
+                        <i class="fab fa-instagram text-2xl"></i>
+                    </a>
+                    <a href="javascript:void(0);" onclick="openWhatsApp()" class="text-green-500 hover:text-teal-700">
+                        <i class="fab fa-whatsapp text-2xl"></i>
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+            <div class="w-full md:w-1/5">
+                <h1 class="text-2xl font-semibold mb-5">Location</h1>
+                <p class="text-lg">Welcome to your one-stop destination for all your furniture needs!</p>
+                <p class="text-lg mt-3">At <strong>Strong Furniture Holdings</strong>, we believe that furniture is more than just a necessity – it's an expression of your style and a reflection of your personality. Our mission is to provide you with high-quality, stylish, and affordable furniture that transforms your house into a home.</p>
+            </div>
+
+            <div class="w-full md:w-1/5">
+                <h3 class="text-2xl font-semibold mb-5">Menu</h3>
+                <ul class="space-y-2 blued">
+                    <li><a href="{% url 'dashboard:post_list' %}" class="text-lg  hover:text-teal-700">BLOGS</a></li>
+                    <li><a href="{% url 'core:about' %}" class="text-lg  hover:text-teal-700">ABOUT US</a></li>
+                    <li><a href="{% url 'core:faq' %}" class="text-lg  hover:text-teal-700">FAQs</a></li>
+                    <li><a href="{% url 'core:contact' %}" class="text-lg  hover:text-teal-700">Contact</a></li>
+                    <li><a href="{% url 'core:privacy_policy' %}" class="text-lg  hover:text-teal-700">Privacy Policy</a></li>
+                    <li><a href="{% url 'core:terms_of_use' %}" class="text-lg  hover:text-teal-700">Terms of Use</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+            const body = document.body;
+
+            // Set theme on page load based on user preference
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                body.classList.add('dark');
+                body.classList.remove('light');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon', 'bounce-in' ,'margin-right:20px;');
+            } else {
+                body.classList.add('light');
+                body.classList.remove('dark');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun', 'bounce-in','margin-left:20px;');
+            }
+
+            themeToggle.addEventListener('click', function () {
+                // Toggle classes
+                body.classList.toggle('dark');
+                body.classList.toggle('light');
+
+                // Animate icon change
+                themeIcon.classList.add('rotate');
+                setTimeout(() => {
+                    themeIcon.classList.remove('rotate');
+                    if (body.classList.contains('dark')) {
+                        themeIcon.classList.remove('fa-sun');
+                        themeIcon.classList.add('fa-moon');
+                    } else {
+                        themeIcon.classList.remove('fa-moon');
+                        themeIcon.classList.add('fa-sun');
+                    }
+                }, 500);
+
+                // Save user preference
+                const theme = body.classList.contains('dark') ? 'dark' : 'light';
+                localStorage.setItem('theme', theme);
+            });
+
+            // Navigation toggle
+            const navToggle = document.getElementById('nav-toggle');
+            const navMenu = document.getElementById('nav-menu');
+            const navMobileMenu = document.getElementById('nav-mobile-menu');
+
+            navToggle.addEventListener('click', function () {
+                navMobileMenu.classList.toggle('hidden');
+            });
+
+            function openWhatsApp() {
+                // Replace with your WhatsApp link
+                var whatsappLink = "https://wa.link/pajqa9";
+                window.open(whatsappLink, '_blank');
+            }
+        });
+    </script>
+</body>
+</html>

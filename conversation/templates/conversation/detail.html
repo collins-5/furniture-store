@@ -1,0 +1,30 @@
+{% extends "core/base.html" %}
+
+{% block title %}Conversation{% endblock  %}
+{% block content %}
+  <div class=" text-gray-600 roundedb spacey-y-6">
+    <h1 class="mb-6 blued text-3xl">Conversation</h1>
+    {% for message in conversation.messages.all %}
+            <div class="convas">
+              <div class="p-6 flex  {% if message.created_by == request.user %} bg-blue-100 {% else %} bg-gray-100 {% endif %}rounded-xl">
+                   <div>
+                      <p class="mb-4"><strong> {{ message.created_by.username }}</strong> @ {{ message.created_at }}</p>
+                      <p>{{ message.content }}</p>
+                   </div>
+              </div>
+            </div>
+    {% endfor %}
+  </div>
+  <div class="roundedb mt-6 md-5">
+  <form   method="post" action="." >
+    <h1 class="blued text-2xl">new message</h1>
+    {% csrf_token %}
+    {{form.as_p}}
+
+    <button class="py-4 px-8 text-lg bg-teal-500 hover:bg-tael-700 rounded-xl text-white">send</button>
+
+
+  </form>
+  </div>
+
+{% endblock  %}  

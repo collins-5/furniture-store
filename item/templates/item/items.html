@@ -1,0 +1,58 @@
+{% extends "core/base.html" %}
+{% block title %}Items{% endblock  %}
+{% block content %}
+<div  class="roundedb">
+ <div  class=" gap-1 " >
+    <div class="searchs ">
+        <h1 class="text-6xl blued">ALL IN ONE PLACE</h1>
+        <h2>
+            <i class="fa fa-couch text-9xl blue"></i>
+        </h2>
+    </div>
+    <div  class=" search">
+       <form  method="get" action="{% url "item:items" %}">
+           <input  name="query" class="w-1/2 py-3 px-6 border index rounded-xl" type="text" value="{{query}}" placeholder="Find an item">
+                 <button class="mt-2 py-4 px-8 bg-transparent text-white rounded-xl " ><i style="margin-left: -150px;" class="fa fa-search text-3xl text-pink-300"></i></button>
+           </input>
+       </form>
+       <hr class="my-6" > 
+       <span class=" font-semibold">Categories</span>
+       <ul>
+        {% for cartegory in cartegories %}
+        <span class="py-2 px-2 roundend-xl {% if cartegory.id == cartegory_id %} bg-tael-500 {% endif %}" data-id="{{ cartegory.id }}">
+            <a href="{% url "item:items" %}?query={{ query }}&Cartegory={{ cartegory.id }}">{{ cartegory.name }}</a>
+        </span>
+        {% endfor %}
+        
+       </ul>
+       <hr class="my-6">
+        <p class="font-semibold">Clear filters</p>
+        <ul>
+            <li><a href="{% url "item:items" %}" class="mt-2 inline-block py-4 px-8 bg-yellow-500 rounded-xl text-white">Clear</a></li>
+        </ul>
+    </div>
+     <div class="col-span-3">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 my-20">
+            {% for item in items %}
+            <div class="productbg rounded-xl shadow-lg overflow-hidden transform transition-all hover:scale-105 hover:shadow-2xl">
+                <a href="{% url "item:detail" item.id %}">
+                    <img src="{{ item.image.url }}" alt="{{ item.name }}" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <h2 class="text-2xl text-teal-500">{{ item.name }}</h2>
+                        <span>Posted on:  <i class="text-1xl blue">{{ item.created_at }}</i></span>
+                        <div style="display: block; " >{% if item.was %}<div>was:$ <span style="text-decoration: line-through;">{{ item.was }}</span></div>{% endif %}<div>Price: {{ item.price }}</div></div>
+                        {% comment %} <p class="text-gray-500">Description: {{ item.description }}</p> {% endcomment %}
+                        <a href="{% url 'dashboard:add_to_cart' item.id %}" class="inline-block cart text-lg font-semibold mt-6 px-6  px-4 py-3 rounded hover:bg-green-700">Add to Cart</a>
+                        {% if item.description %}
+                        <a style=" margin-left: 23%;" class="blue" href="{% url 'item:detail' item.id %}">click to view</a>
+                         {% endif %}
+
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+     </div>
+ </div>
+</div>
+{% endblock  %}

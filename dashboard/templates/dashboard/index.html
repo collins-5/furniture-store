@@ -1,0 +1,56 @@
+{% extends "core/base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<style>
+        .newest{
+        border: 2px lavender solid;
+         display: flex; 
+         justify-content: center;
+          align-items: center;
+            padding: 0px; 
+            margin-bottom: 9px;
+            cursor: none;
+            color: var(--search-color);
+            background-color: var(--productbg-color);
+    }
+    .new{
+        margin-top: 30px;
+
+    }
+</style>
+<div class="mt-6 px-6 py-12 roundedb ">
+    <div class="newest rounded-xl"> <div class="mb-12 text-2xl  new text-center">MY STORE</div></div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
+        {% for item in items %}
+        <div class="productbg rounded-xl shadow-lg overflow-hidden transform transition-all hover:scale-105 hover:shadow-2xl">
+            <a href="{% url "item:detail" item.id %}">
+                <img src="{{ item.image.url }}" alt="{{ item.name }}" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h2 class="text-2xl blued">{{ item.name }}</h2>
+                    <p class="blued">Price: {{ item.price }}</p>
+                    <div style="display: block; " class="">{% if item.was %}<div>was:$ <span class="blue" style="text-decoration: line-through; ">{{ item.was }}</span></div>{% endif %}<div>Price:$ {{ item.price }}</div></div>
+                    <a href="{% url "item:edit" item.id%}" class="inline-block mt-6  px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl">Edit</a>
+                    {% comment %} <p class="text-gray-500">Description: {{ item.description }}</p> {% endcomment %}
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="mt-6 px-6 index py-12 productbg rounded-xl">
+    <h2 class="mb-12 text-2xl text-center">Categories</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for cartegory in cartegories %}
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all hover:scale-105 hover:shadow-2xl">
+            <a href="#">
+                <div class="p-6">
+                    <h2 class="text-2xl">{{ cartegory.name }}</h2>
+                    <p class="text-gray-500"> {{ cartegory.items.count }} Items</p>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

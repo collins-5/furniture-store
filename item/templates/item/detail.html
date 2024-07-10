@@ -1,0 +1,64 @@
+{% extends "core/base.html" %}
+{% block title %} {{ item.name }} {% endblock %}
+{% block content %}
+<div style="height: 100%;" class="grid grid-cols-5 productbg roundedb gap-6">
+  <div class="col-span-3">
+    <img style="height: 100%; width:500px; margin-left: 150px; margin-bottom: 100px;" src="{{ item.image.url }}" class="rounded-xl">
+  </div>
+  <div style="border-left: 3px lavender solid;" class="col-span-2 p-6 productbg rounded-xl">
+    <h1 class="mb-6 text-3xl">{{ item.name }}</h1>
+    <div style="display: block; " >{% if item.was %}<div>was:$ <span style="text-decoration: line-through;">{{ item.was }}</span></div>{% endif %}<div>Price:$ {{ item.price }}</div></div>
+    <p ><strong> SELLER: </strong>{{ item.created_by.username }} </p>
+    {% if item.description %}
+    <p class="italy">
+      <strong >DESCRIPTION:</strong><br><hr>
+      {{item.description}}
+    </p>
+    {% endif %}
+
+    {% if request.user == item.created_by %}
+    <div class="mt-6 p-6 productbg rounded-xl">
+      <p>this is your item</p>
+      <a href="{% url "item:edit" item.id%}" class="inline-block mt-6  px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl">Edit</a>
+      <a href="{% url "item:delete" item.id%}" class="inline-block mt-6  px-6 py-3 text-lg font-semibold bg-red-500 text-white rounded-xl">Delete</a>
+    </div>
+    {% else %}
+    <a href="{% url "conversation:new" item.id %}" class="inline-block mt-6 italy px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700">Contact seller</a>
+    {% if not request.user.is_staff %}
+        <a href="{% url 'dashboard:add_to_cart' item.id %}" class="inline-block cart italy text-lg font-semibold mt-6 px-6 text-white px-4 py-3 rounded hover:bg-green-700">Add to Cart</a>
+        {% endif %}
+      {% endif %}
+  </div>
+</div>
+{% if related_items %}
+<div class="mt-6 px-6 py-12 roundedb productbg ">
+  <div class="newest rounded-xl"> <div class="mb-12 text-2xl  new text-center">RELATED ITEMS</div></div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
+    {% for item in related_items %}
+    <div class="productbg rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+      <a href="{% url "item:detail" item.id %}">
+        <img src="{{ item.image.url }}" alt="{{ item.name }}" class="w-full h-56 object-cover">
+        <div class="p-6">
+          <h2 class="text-2xl ">{{ item.name }}</h2>
+          <div style="display: block; "  class="italy">{% if item.was %}<div>was:$ <span style="text-decoration: line-through;">{{ item.was }}</span></div>{% endif %}<div>Price:$ {{ item.price }}</div></div>
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+    <!-- Dummy Ads Placeholder -->
+    <div class="bg-gray-200 rounded-xl shadow-lg p-6 text-center">
+      <p class="text-lg text-gray-600">Ad Space</p>
+      <p class="text-sm text-gray-400">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    </div>
+    <div class="bg-gray-200 rounded-xl shadow-lg p-6 text-center">
+      <p class="text-lg text-gray-600">Ad Space</p>
+      <p class="text-sm text-gray-400">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    </div>
+    <div class="bg-gray-200 rounded-xl shadow-lg p-6 text-center">
+      <p class="text-lg text-gray-600">Ad Space</p>
+      <p class="text-sm text-gray-400">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

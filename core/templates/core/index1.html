@@ -1,0 +1,91 @@
+{% extends "core/base.html" %}
+{% block title %}Welcome{% endblock %}
+{% block content %}
+<style>
+    .newest{
+        border: 2px lavender solid;
+         display: flex; 
+         justify-content: center;
+          align-items: center;
+            padding: 0px; 
+            margin-bottom: 9px;
+            color: var(--search-color);
+            background-color: var(--productbg-color);
+            cursor: pointer;
+    }
+    .new{
+        margin-top: 30px;
+
+    }
+    .welcome{
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .welcome h1{
+        font-size: 6vh;
+        z-index: 1;
+        margin-left: 100%;
+        color: blue;
+        opacity: 0;
+        animation: well 3s ease-in-out;
+        }
+    @keyframes well {
+        0%{
+            opacity: 0;
+        }
+        100%{
+            opacity: 1;
+            scale: 3;
+        }
+        
+    }
+
+</style>
+{% if request.user.is_authenticated %}
+<div class="welcome" ><h1 style="font-size: 4vh; animation: well 3s ease-in-out;" class="welome">WELCOME</h1></div> 
+{%endif%}
+<div  style="width: 100%;" class="mb-1 px-0 py-1  rounded-xl">
+    <div class="newest rounded-xl"> <div class="mb-12 text-2xl  new text-center">Product Catalogue<i class="blue fa fa-shop"></i></div></div>
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-2">
+        {% for item in items %}
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all hover:scale-105 hover:shadow-2xl">
+            <a href="{% url 'item:detail' item.id %}">
+                <img src="{{ item.image.url }}" alt="{{ item.name }}" class="w-full h-56 object-cover">
+                <div class="p-6 productbg">
+                    <h2 class="text-2xl text-teal-500">{{ item.name }}</h2>
+                    <span>Posted on:  <i class="text-1xl blue">{{ item.created_at }}</i></span>
+                    <div style="display: block; " class="">{% if item.was %}<div>was:$ <span class="blue" style="text-decoration: line-through; ">{{ item.was }}</span></div>{% endif %}<div>Price:$ {{ item.price }}</div></div>
+                    {% if not request.user.is_staff  %}
+                    <span><a href="{% url 'dashboard:add_to_cart' item.id %}" class="inline-block cart text-lg font-semibold mt-6 px-6  px-4 py-3 rounded hover:bg-green-700">Add to Cart</a>  </span>
+                    {%endif%}
+                    {% if item.description %}
+                    <a style=" margin-left: 33%;" class="blue" href="{% url 'item:detail' item.id %}">click to view</a>
+                     {% endif %}
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class ="index" class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+    <h2  class="mb-12 text-2xl  text-center">Categories</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
+        {% for cartegory in cartegories %}
+        <div  class=" rounded-xl shadow-lg  productbg overflow-hidden transform transition-all hover:scale-105 hover:shadow-2xl">
+            <a href="{% url 'item:items' %}">
+                <div class="p-6">
+                    <!-- <h2 class="text-2xl">{{ cartegory.name }}</h2> -->
+                    <a class="text-center blue text-3xl " href="{% url "item:items" %}?query={{ query }}&Cartegory={{ cartegory.id }}">{{ cartegory.name }}</a><p>{{ cartegory.items.count }}</P>
+                    <!-- <p class="text-gray-500">{{ cartegory.items.count }} Items</p> -->
+
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

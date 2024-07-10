@@ -1,0 +1,73 @@
+{% extends "core/base.html" %}
+
+{% block title %}Lipa na M-Pesa{% endblock %}
+
+{% block content %}
+<div class="container mx-auto mt-10">
+    <!-- Modal Trigger Button -->
+    <button id="openModal" class=" text-green-500 px-6 py-3 rounded hover:text-green-700">Pay with M-Pesa</button>
+    <button id="openModal" class="bg-blue text-teal-900 px-6 py-3 rounded ">Pay with paypal</button>
+
+    <!-- Modal -->
+    <div id="paymentModal" class="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 hidden">
+        <div class="flex justify-center items-center h-full">
+            <div class="bg-white w-1/2 mx-auto p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-bold mb-5 text-center">Lipa na M-Pesa</h2>
+                <form id="mpesa-form" method="POST">
+                    {% csrf_token %}
+                    <div class="mb-5">
+                        <label for="phone_number" class="block mb-2 text-sm font-medium text-gray-700">Phone Number</label>
+                        <input type="text" id="phone_number" name="phone_number" class="w-full p-3 border border-gray-300 rounded" required>
+                    </div>
+                    <div class="mb-5">
+                        <label for="amount" class="block mb-2 text-sm font-medium text-gray-700">Amount</label>
+                        <input type="number" id="amount" name="amount" class="w-full p-3 border border-gray-300 rounded" required>
+                    </div>
+                    <div class="flex justify-center">
+                        <button type="submit" class="bg-green-500 text-white px-6 py-3 rounded hover:bg-green-700">Pay Now</button>
+                    </div>
+                </form>
+                <div class="text-center mt-4">
+                    <button id="closeModal" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Open Modal Event Listener
+    document.getElementById('openModal').addEventListener('click', function() {
+        document.getElementById('paymentModal').classList.remove('hidden');
+    });
+
+    // Close Modal Event Listener
+    document.getElementById('closeModal').addEventListener('click', function() {
+        document.getElementById('paymentModal').classList.add('hidden');
+    });
+
+    // Form Submission Event Listener
+    document.getElementById('mpesa-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        fetch("{% url 'dashboard:lipa_na_mpesa' %}", {
+            method: "POST",
+            body: new FormData(this)
+        })
+        .then(response => response.json())
+        .then(data => {
+            const modal = document.getElementById('paymentModal');
+            if (data.success) {
+                modal.querySelector('.text-2xl').textContent = 'Payment Successful';
+                modal.querySelector('.text-center').innerHTML = `<p class="text-lg text-green-500 font-semibold">${data.message}</p>`;
+            } else {
+                modal.querySelector('.text-2xl').textContent = 'Payment Failed';
+                modal.querySelector('.text-center').innerHTML = `<p class="text-lg text-red-500 font-semibold">Payment initiation failed</p>`;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred');
+        });
+    });
+</script>
+{% endblock %}

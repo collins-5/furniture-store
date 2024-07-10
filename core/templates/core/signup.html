@@ -1,0 +1,259 @@
+{% comment %} {% extends "core/base.html" %}
+{% block title %}Sign up{% endblock %}
+{% block content %} {% endcomment %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Furniture | Signup{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Light mode */
+        .light {
+            --bg-color: rgb(23, 80, 236);
+            --text-color: #333333;
+            --nav-bg-color: #0a0eff;
+            --footer-bg-color: #3f4b57;
+            --index-bg-color: #1a7cdf;
+            --index-text-color: #da4040;
+            --a-text-color: #1a7cdf;
+            --blue-color: rgb(65, 34, 136);
+            --cart-color: rgb(235, 84, 79);
+            --productbg-color: rgb(181, 225, 226);
+        }
+
+        /* Dark mode */
+        .dark {
+            --bg-color: #888383;
+            --text-color: #ffffff;
+            --nav-bg-color: #444444;
+            --footer-bg-color: #444444;
+            --blue-color: rgb(108, 193, 243);
+            --cart-color: rgb(250, 13, 5);
+            --productbg-color: rgb(84, 92, 92);
+        }
+
+        .blue {
+            color: var(--blue-color);
+        }
+
+        .cart {
+            background-color: var(--cart-color);
+        }
+
+        .productbg {
+            background-color: var(--productbg-color);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            60% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+
+            80% {
+                transform: scale(0.9);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .rotate {
+            animation: rotate 1s linear;
+        }
+
+        .bounce-in {
+            animation: bounceIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            0% {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .slide-in {
+            animation: slideIn 1s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="py-2 px-6 flex justify-between items-center border-b border-gray-200 shadow-md">
+    <a href="#" class="flex items-center blue space-x-2 fade-in">
+        <i class="fas fa-couch text-3xl"></i>
+        <span class="text-2xl font-bold">SFH <i class="fas fa-star text-xl"></i></span>
+    </a>
+    <div class="flex items-center">
+        <a href="{% url 'core:index' %}" class="text-lg font-semibold hover:text-teal-500 transition duration-300">
+            <i class="fas fa-house"></i> HOME
+        </a>
+        <a href="{% url 'core:login' %}" class="text-lg font-semibold hover:text-teal-500 transition duration-300">
+            <i class="fas fa-sign-in-alt"></i> Login
+        </a>
+        <button id="theme-toggle"
+                class="bg-lavender px-4 py-2 ml-4 rounded-md shadow-md flex items-center justify-center">
+            <i id="theme-icon" class="fas fa-sun text-2xl"></i>
+        </button>
+    </div>
+</nav>
+
+<div class="max-w-md mx-auto my-12 p-6 productbg rounded-xl shadow-md">
+    <h1 class="mb-6 text-3xl text-center">Sign Up</h1>
+    <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-6 md:mb-0 md:mr-6">
+            <i class="fas fa-couch slide-in fade-in text-6xl blue"></i>
+        </div>
+        <div class="w-full">
+            <form method="post" action="." class="space-y-4">
+                {% csrf_token %}
+                <div>
+                    <label class="block mb-1 text-lg">First Name:</label>
+                    <input type="text" name="first_name"
+                           class="text-gray-600 bg-white w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                           required>
+                </div>
+                <div>
+                    <label class="block mb-1 text-lg">Last Name:</label>
+                    <input type="text" name="last_name"
+                           class="text-gray-600 bg-white w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                           required>
+                </div>
+                <div>
+                    <label class="block mb-1 text-lg">Username:</label>
+                    <input type="text" name="username"
+                           class="text-gray-600 bg-white w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                           required>
+                </div>
+                <div>
+                    <label class="block mb-1 text-lg">Email:</label>
+                    <input type="email" name="email"
+                           class="text-gray-600 bg-white w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                           required>
+                </div>
+                <div>
+                    <label class="block mb-1 text-lg">Password:</label>
+                    <input type="password" name="password1"
+                           class="text-gray-600 bg-white w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                           required>
+                </div>
+                <div>
+                    <label class="block mb-1 text-lg">Confirm Password:</label>
+                    <input type="password" name="password2"
+                           class="text-gray-600 bg-white w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                           required>
+                </div>
+                {% if form.errors %}
+                    <div class="p-4 bg-red-100 rounded-xl text-red-700">
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div class="text-center">
+                    <button type="submit"
+                            class="py-2 px-6 bg-teal-500 hover:bg-teal-700 rounded-xl text-white">Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const body = document.body;
+
+        // Set theme on page load based on user preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.classList.add('dark');
+            body.classList.remove('light');
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon', 'bounce-in', 'ml-4');
+        } else {
+            body.classList.add('light');
+            body.classList.remove('dark');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun', 'bounce-in', 'ml-4');
+        }
+
+        themeToggle.addEventListener('click', function () {
+            // Toggle classes
+            body.classList.toggle('dark');
+            body.classList.toggle('light');
+
+            // Animate icon change
+            themeIcon.classList.add('rotate');
+            setTimeout(() => {
+                themeIcon.classList.remove('rotate');
+                if (body.classList.contains('dark')) {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                } else {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                }
+            }, 500);
+
+            // Save user preference
+            const theme = body.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+        });
+    });
+
+</script>
+
+</body>
+</html>
